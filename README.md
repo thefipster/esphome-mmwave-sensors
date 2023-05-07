@@ -126,8 +126,6 @@ Since C++ is not my strongest of languages and this is my first implementation w
 
 Please feel free to dive in! [Open an issue](https://github.com/thefipster/esphome_mmwave_sensors/issues/new) or submit PRs. 
 
-This Readme follows the [Contributor Covenant](http://contributor-covenant.org/version/1/3/0/) Code of Conduct.
-
 ## License
 
 MIT © thefipster
