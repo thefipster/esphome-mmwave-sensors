@@ -1,17 +1,17 @@
-# ESPHome / Home Assistant integrations for mmWave sensors
+# ESPHome integration for mmWave sensors
 
 Collection of header files and esphome yaml configs to integrate some Seeed Studio mmWave sensors into Home Assistant.
 
 Currently the following sensors are partially implemented
 
 * Seeed Studio
-  * `MR24D` - 24GHz Human Stationary Sensor
-  * `R24D` - 24GHz Human Static Presence Lite
-  * `R60A` - 60GHz Respiratory Heartbeat Sensor
+  * `MR24D` - 24 GHz Human Stationary Sensor
+  * `R24D` - 24 GHz Human Static Presence Lite
+  * `R60A` - 60 GHz Respiratory Heartbeat Sensor
 
 ## Table of Contents
 
-- [ESPHome / Home Assistant integrations for mmWave sensors](#esphome--home-assistant-integrations-for-mmwave-sensors)
+- [ESPHome integration for mmWave sensors](#esphome-integration-for-mmwave-sensors)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
     - [Files](#files)
@@ -21,7 +21,7 @@ Currently the following sensors are partially implemented
     - [Steps](#steps)
       - [Header Files](#header-files)
       - [ESPHome](#esphome)
-      - [Options](#options)
+    - [Options](#options)
         - [Webserver](#webserver)
         - [Header Directory Name](#header-directory-name)
   - [Supported Functions](#supported-functions)
@@ -43,16 +43,16 @@ If you don't bother or use all the supported sensors just copy all files from th
     * esphome/mr24d.yaml
 * `R24D`
   * Headers
-    * r24d.h
-    * rx_definitions.h
-    * rx_frame.h
+    * header/r24d.h
+    * header/rx_definitions.h
+    * header/rx_frame.h
   * ESPHome Config
     * esphome/r24d.yaml
 * `R60A`
   * Headers
-    * r60a.h
-    * rx_definitions.h
-    * rx_frame.h
+    * header/r60a.h
+    * header/rx_definitions.h
+    * header/rx_frame.h
   * ESPHome Config
     * esphome/r60a.yaml
 
@@ -68,8 +68,8 @@ The template assumes the use of a `ESP32`. Specifically the `AZDelivery ESP32 De
 
 The template assumes the following wiring:
 
-`GPIO16` of the MCU configured as `RX` connected to the `TX Pin` of the sensor
-`GPIO17` of the MCU configured as `TX` connected to the `RX Pin` of the sensor
+* `GPIO16` of the MCU configured as `RX` connected to the `TX Pin` of the sensor
+* `GPIO17` of the MCU configured as `TX` connected to the `RX Pin` of the sensor
 
 This can be changed in the `uart` section of the ESPHome config.
 
@@ -93,7 +93,7 @@ This can be changed in the `uart` section of the ESPHome config.
 6. The other sections `substitutions`, `esphome`, `logger` and everything after `wifi` are taken from this repository.
 7. Save the configuration and apply it to your device.
 
-#### Options
+### Options
 
 ##### Webserver
 
