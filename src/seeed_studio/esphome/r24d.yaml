@@ -1,0 +1,170 @@
+esphome:
+  name: test-mmwave-r24d
+  friendly_name: test-mmwave-r24d
+  includes:
+  - header/rx_definitions.h
+  - header/rx_frame.h
+  - header/r24d.h
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+logger:
+  logs:
+    sensor: INFO
+
+api:
+  encryption:
+    key: ""
+
+ota:
+  password: ""
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+web_server:
+  port: 80
+  version: 2
+  include_internal: true
+
+http_request:
+  useragent: esphome/test-mmwave-r24d
+  timeout: 2s
+  
+uart:
+  id: soft_uart_1
+  baud_rate:  115200
+  rx_pin: 16
+  tx_pin: 17
+
+sensor:
+  - platform: custom
+    lambda: |-
+      auto r24d_sensor = new UARTSensor(id(soft_uart_1)); 
+      App.register_component(r24d_sensor);
+      return { r24d_sensor->presence_sensor, r24d_sensor->motion_sensor, r24d_sensor->proximity_sensor, r24d_sensor->body_sensor };
+    sensors:
+      - id: presence_sensor
+        name: "Internal Presense Sensor"
+        internal: true
+        on_value:
+          - binary_sensor.template.publish:
+              id: presence_template
+              state: !lambda return x > 0;
+      - id: motion_sensor
+        name: "Internal Motion Sensor"
+        internal: true
+        on_value:
+          - binary_sensor.template.publish:
+              id: motion_template
+              state: !lambda return x > 0;
+      - id: proximity_sensor
+        name: "Proximity"
+        state_class: measurement   
+      - id: body_sensor
+        name: "Body Movement"
+        state_class: measurement   
+
+binary_sensor:
+  - id: presence_template
+    platform: template
+    name: "Presence"
+    device_class: occupancy
+  - id: motion_template
+    platform: template
+    name: "Motion"
+    device_class: motion
+
+button:
+  - platform: template
+    name: "Module Reset"
+    id: "reset"
+    icon: mdi:power-cycle
+    on_press:
+      then:
+        - uart.write: [ 0x53,0x59,0x01,0x02,0x00,0x01,0x0F,0xBF,0x54,0x43 ]
+
+  - platform: template
+    name: "Presence Inquiry"
+    id: "presence_inquiry"
+    icon: mdi:refresh
+    on_press:
+      then:
+        - uart.write: [ 0x53,0x59,0x80,0x81,0x00,0x01,0x0F,0xBD,0x54,0x43 ]
+
+  - platform: template
+    name: "Motion Inquiry"
+    id: "motion_inquiry"
+    icon: mdi:refresh
+    on_press:
+      then:
+        - uart.write: [ 0x53,0x59,0x80,0x82,0x00,0x01,0x0F,0xBE,0x54,0x43 ]
+
+  - platform: template
+    name: "Proximity Inquiry"
+    id: "proximity_inquiry"
+    icon: mdi:refresh
+    on_press:
+      then:
+        - uart.write: [ 0x53,0x59,0x80,0x8B,0x00,0x01,0x0F,0xC7,0x54,0x43 ]
+
+select:
+  - platform: template
+    name: "Scene Mode"
+    id: scene_mode
+    icon: mdi:home-map-marker
+    optimistic: true
+    options:
+      - "Living room"
+      - "Bedroom"
+      - "Bathroom"
+      - "Area detection"
+    initial_option: "Living room"
+    set_action:
+      - uart.write: !lambda
+                  auto index = id(scene_mode).index_of(x);
+                  uint8_t value = (uint8_t)index.value() + 1;
+                  uint8_t crc = value + 0xB9;
+                  return { 0x53,0x59,0x05,0x07,0x00,0x01,value,crc,0x54,0x43 };  
+
+  - platform: template
+    name: "Time until unoccupied"
+    id: unoccupied_time
+    icon: mdi:timeline-clock
+    optimistic: true
+    options:
+      - "None"
+      - "10s"
+      - "30s"
+      - "1min"
+      - "2min" 
+      - "5min" 
+      - "10min"
+      - "30min"
+      - "1hour"
+    initial_option: "30s"
+    set_action:
+      - uart.write: !lambda
+                  auto index = id(unoccupied_time).index_of(x);
+                  uint8_t value = (uint8_t)index.value();
+                  uint8_t crc = value + 0x37;
+                  return { 0x53,0x59,0x80,0x0a,0x00,0x01,value,crc,0x54,0x43 };
+
+number:
+  - platform: template
+    id: sensitivity
+    name: "Sensitivity"
+    icon: mdi:tune
+    min_value: 0
+    max_value: 3
+    optimistic: true
+    step: 1
+    set_action:
+      - uart.write: !lambda
+                    uint8_t value = (uint8_t)x;
+                    uint8_t crc = x + 0xBA;
+                    return { 0x53,0x59,0x05,0x08,0x00,0x01,value,crc,0x54,0x43 };
