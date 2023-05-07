@@ -9,9 +9,28 @@ Currently the following sensors are partially implemented
   * `R24D` - 24GHz Human Static Presence Lite
   * `R60A` - 60GHz Respiratory Heartbeat Sensor
 
+## Table of Contents
+
+- [ESPHome / Home Assistant integrations for mmWave sensors](#esphome--home-assistant-integrations-for-mmwave-sensors)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+    - [Files](#files)
+    - [Hardware](#hardware)
+      - [MCU](#mcu)
+      - [Wiring](#wiring)
+    - [Steps](#steps)
+      - [Header Files](#header-files)
+      - [ESPHome](#esphome)
+      - [Options](#options)
+        - [Webserver](#webserver)
+        - [Header Directory Name](#header-directory-name)
+  - [Supported Functions](#supported-functions)
+  - [Contributing](#contributing)
+  - [License](#license)
+
 ## Installation
 
-### Which header files for what sensor?
+### Files
 
 If you don't bother or use all the supported sensors just copy all files from the header directory.
 
@@ -86,6 +105,8 @@ You can change the name of the `header` directory in home assistant if it doesn'
 
 ## Supported Functions
 
+The `R24D` and `R60A` sensor also support multiple inputs to reset, change operation modes and query specific sensor states.
+
 |                     | `MR24D` | `R24D` | `R60A` | Info                                                                      |
 |---------------------|-------|------|------|---------------------------------------------------------------------------|
 | presence            | x     | x    | x    | binary (detected/clear)                                                   |
@@ -98,3 +119,15 @@ You can change the name of the `header` directory in home assistant if it doesn'
 | breathing rate      |       |      | x    | measurement                                                               |
 | breathing info      |       |      | x    | measurement  (1: normal,  2: fast,  3: slow, 4: none)                     |
 | radar out of bounds |       |      | x    | measurement (0: out of range, 1: within range)                            |
+
+## Contributing
+
+Since C++ is not my strongest of languages and this is my first implementation which is interacting with ESPHome, Home Assistant and the uart protocol in general, there are probably a lot of things that can be done easier or cleaner. 
+
+Please feel free to dive in! [Open an issue](https://github.com/thefipster/esphome_mmwave_sensors/issues/new) or submit PRs. 
+
+This Readme follows the [Contributor Covenant](http://contributor-covenant.org/version/1/3/0/) Code of Conduct.
+
+## License
+
+MIT © thefipster
