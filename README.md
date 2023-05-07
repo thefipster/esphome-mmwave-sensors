@@ -108,17 +108,17 @@ You can change the name of the `header` directory in home assistant if it doesn'
 The `R24D` and `R60A` sensor also support multiple inputs to reset, change operation modes and query specific sensor states.
 
 |                     | `MR24D` | `R24D` | `R60A` | Info                                                                      |
-|---------------------|-------|------|------|---------------------------------------------------------------------------|
-| presence            | x     | x    | x    | binary (detected/clear)                                                   |
-| motion              | x     | x    | x    | binary (detected/clear)                                                   |
-| body movement       | x     | x    | x    | measurement  (0: unoccupied,  1: static presence,  2-100: activity level) |
-| proximity           | x     | x    |      | measurement (<0: approaching,  0 none or stationary,  >0 moving away)     |
-| distance            |       |      | x    | measurement (distance to object in cm)                                    |
-| x, y, z angle       |       |      | x    | measurements  (relative position of object to sensor)                     |
-| heartrate           |       |      | x    | measurement                                                               |
-| breathing rate      |       |      | x    | measurement                                                               |
-| breathing info      |       |      | x    | measurement  (1: normal,  2: fast,  3: slow, 4: none)                     |
-| radar out of bounds |       |      | x    | measurement (0: out of range, 1: within range)                            |
+|---------------------|---------|--------|--------|---------------------------------------------------------------------------|
+| presence            | x       | x      | x      | binary (detected/clear)                                                   |
+| motion              | x       | x      | x      | binary (detected/clear)                                                   |
+| body movement       | x       | x      | x      | measurement  (0: unoccupied,  1: static presence,  2-100: activity level) |
+| proximity           | x       | x      |        | measurement (<0: approaching,  0 none or stationary,  >0 moving away)     |
+| distance            |         |        | x      | measurement (distance to object in cm)                                    |
+| x, y, z angle       |         |        | x      | measurements  (relative position of object to sensor)                     |
+| heartrate           |         |        | x      | measurement                                                               |
+| breathing rate      |         |        | x      | measurement                                                               |
+| breathing info      |         |        | x      | measurement  (1: normal,  2: fast,  3: slow, 4: none)                     |
+| radar out of bounds |         |        | x      | measurement (0: out of range, 1: within range)                            |
 
 ## Contributing
 
