@@ -1,6 +1,10 @@
+substitutions:
+  device_id: test-mmwave-r60a
+  device_name: Test mmWave R60A
+
 esphome:
-  name: test-mmwave-r60a
-  friendly_name: test-mmwave-r60a
+  name: ${device_id}
+  friendly_name: ${device_name}
   includes:
   - header/r60a_definitions.h
   - header/r60a_frame.h
@@ -32,7 +36,7 @@ web_server:
   include_internal: true
 
 http_request:
-  useragent: esphome/test-mmwave-r60a
+  useragent: esphome/${device_id}
   timeout: 2s
   
 uart:

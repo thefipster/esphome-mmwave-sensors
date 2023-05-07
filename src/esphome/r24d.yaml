@@ -1,6 +1,10 @@
+substitutions:
+  device_id: test-mmwave-r24d
+  device_name: Test mmWave R24D
+
 esphome:
-  name: test-mmwave-r24d
-  friendly_name: test-mmwave-r24d
+  name: ${device_id}
+  friendly_name: ${device_name}
   includes:
   - header/rx_definitions.h
   - header/rx_frame.h
@@ -32,7 +36,7 @@ web_server:
   include_internal: true
 
 http_request:
-  useragent: esphome/test-mmwave-r24d
+  useragent: esphome/${device_id}
   timeout: 2s
   
 uart:
