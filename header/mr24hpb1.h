@@ -1,14 +1,14 @@
 #include "esphome.h"
-#include "mrx_frame.h"
+#include "mr24hpb1_frame.h"
 
 using namespace esphome;
 
-class UARTSensor : public Component, public UARTDevice
+class MR24HPB1 : public Component, public UARTDevice
 {
 public:
-    UARTSensor(UARTComponent *parent) : UARTDevice(parent) {}
+    MR24HPB1(UARTComponent *parent) : UARTDevice(parent) {}
 
-    MRX_Frame frame;
+    MR24HPB1_Frame frame;
 
     Sensor *presence_sensor = new Sensor();
     Sensor *motion_sensor = new Sensor();

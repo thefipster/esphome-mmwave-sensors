@@ -1,14 +1,17 @@
 substitutions:
-  device_id: test-mmwave-mr24d
-  device_name: Test mmWave MR24D
+  device_id: test-mmwave-mr24hpb1
+  device_name: Test mmWave MR24HPB1
+  header_frame: header/mr24hpb1_frame.h
+  header_sensor: header/mr24hpb1.h
+  uart_rx_pin: 16
+  uart_tx_pin: 17
 
 esphome:
   name: ${device_id}
   friendly_name: ${device_name}
   includes:
-    - header/mrx_definitions.h
-    - header/mrx_frame.h
-    - header/mr24d.h
+  - ${header_frame}
+  - ${header_sensor}
 
 esp32:
   board: esp32dev
@@ -40,45 +43,45 @@ http_request:
   timeout: 2s
   
 uart:
-  id: soft_uart_1
+  id: uart2
   baud_rate:  9600
-  rx_pin: 16
-  tx_pin: 17
+  rx_pin: ${uart_rx_pin}
+  tx_pin: ${uart_tx_pin}
 
 sensor:
   - platform: custom
     lambda: |-
-      auto mr24d_sensor = new UARTSensor(id(soft_uart_1)); 
-      App.register_component(mr24d_sensor);
-      return {mr24d_sensor->presence_sensor, mr24d_sensor->motion_sensor, mr24d_sensor->proximity_sensor, mr24d_sensor->body_sensor};
+      auto mr24hpb1 = new MR24HPB1(id(uart2)); 
+      App.register_component(mr24hpb1);
+      return {mr24hpb1->presence_sensor, mr24hpb1->motion_sensor, mr24hpb1->proximity_sensor, mr24hpb1->body_sensor};
     sensors:
       - id: presence_sensor
-        name: "Internal Presense Sensor"
+        name: MR24HPB1 Internal Presense Sensor
         internal: true
         on_value:
           - binary_sensor.template.publish:
               id: presence_template
               state: !lambda return x > 0;
       - id: motion_sensor
-        name: "Internal Motion Sensor"
+        name: MR24HPB1 Internal Motion Sensor
         internal: true
         on_value:
           - binary_sensor.template.publish:
               id: motion_template
               state: !lambda return x > 0;
       - id: proximity_sensor
-        name: "Proximity"
+        name: MR24HPB1 Proximity
         state_class: measurement   
       - id: body_sensor
-        name: "Body Movement"
+        name: MR24HPB1 Body Movement
         state_class: measurement   
         
 binary_sensor:
   - id: presence_template
     platform: template
-    name: "Presence"
+    name: MR24HPB1 Presence
     device_class: occupancy
   - id: motion_template
     platform: template
-    name: "Motion"
+    name: MR24HPB1 Motion
     device_class: motion

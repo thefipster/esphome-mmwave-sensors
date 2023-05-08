@@ -1,9 +1,16 @@
 #ifndef MRX_FRAME_H_
 #define MRX_FRAME_H_
 
-#include "mrx_definitions.h"
+#define UNDEFINED -1
+#define SOFTWARE_VERSION 0
+#define ENVIRONMENTAL 1
+#define BODY_MOVEMENT 2
+#define PROXIMITY 3
+#define HEARTBEAT 4
+#define ABNORMAL_RESET 5
+#define INIT_SUCCESS 6
 
-struct MRX_Frame
+struct MR24HPB1_Frame
 {
     /*
         frame definition

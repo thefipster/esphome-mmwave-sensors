@@ -3,10 +3,10 @@
 
 using namespace esphome;
 
-class UARTSensor : public Component, public UARTDevice
+class MR24HPC1 : public Component, public UARTDevice
 {
 public:
-    UARTSensor(UARTComponent *parent) : UARTDevice(parent) {}
+    MR24HPC1(UARTComponent *parent) : UARTDevice(parent) {}
 
     RX_Frame frame;
 

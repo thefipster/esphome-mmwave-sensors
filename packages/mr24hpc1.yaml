@@ -1,14 +1,17 @@
 substitutions:
-  device_id: test-mmwave-r24d
-  device_name: Test mmWave R24D
+  device_id: test-mmwave-mr24hpc1
+  device_name: Test mmWave MR24HPC1
+  header_frame: header/rx_frame.h
+  header_sensor: header/mr24hpc1.h
+  uart_rx_pin: 16
+  uart_tx_pin: 17
 
 esphome:
   name: ${device_id}
   friendly_name: ${device_name}
   includes:
-  - header/rx_definitions.h
-  - header/rx_frame.h
-  - header/r24d.h
+  - ${header_frame}
+  - ${header_sensor}
 
 esp32:
   board: esp32dev
@@ -40,77 +43,77 @@ http_request:
   timeout: 2s
   
 uart:
-  id: soft_uart_1
+  id: uart2
   baud_rate:  115200
-  rx_pin: 16
-  tx_pin: 17
+  rx_pin: ${uart_rx_pin}
+  tx_pin: ${uart_tx_pin}
 
 sensor:
   - platform: custom
     lambda: |-
-      auto r24d_sensor = new UARTSensor(id(soft_uart_1)); 
-      App.register_component(r24d_sensor);
-      return { r24d_sensor->presence_sensor, r24d_sensor->motion_sensor, r24d_sensor->proximity_sensor, r24d_sensor->body_sensor };
+      auto mr24hpc1 = new MR24HPC1(id(uart2)); 
+      App.register_component(mr24hpc1);
+      return { mr24hpc1->presence_sensor, mr24hpc1->motion_sensor, mr24hpc1->proximity_sensor, mr24hpc1->body_sensor };
     sensors:
       - id: presence_sensor
-        name: "Internal Presense Sensor"
+        name: MR24HPC1 Internal Presense Sensor
         internal: true
         on_value:
           - binary_sensor.template.publish:
-              id: presence_template
+              id: mr24hpc1_presence_template
               state: !lambda return x > 0;
       - id: motion_sensor
-        name: "Internal Motion Sensor"
+        name: MR24HPC1 Internal Motion Sensor
         internal: true
         on_value:
           - binary_sensor.template.publish:
-              id: motion_template
+              id: mr24hpc1_motion_template
               state: !lambda return x > 0;
       - id: proximity_sensor
-        name: "Proximity"
+        name: MR24HPC1 Proximity
         state_class: measurement   
       - id: body_sensor
-        name: "Body Movement"
+        name: MR24HPC1 Body Movement
         state_class: measurement   
 
 binary_sensor:
-  - id: presence_template
-    platform: template
-    name: "Presence"
+  - platform: template
+    id: mr24hpc1_presence_template
+    name: MR24HPC1 Presence
     device_class: occupancy
-  - id: motion_template
-    platform: template
-    name: "Motion"
+  - platform: template
+    id: mr24hpc1_motion_template
+    name: MR24HPC1 Motion
     device_class: motion
 
 button:
   - platform: template
-    name: "Module Reset"
-    id: "reset"
+    id: mr24hpc1_reset
+    name: MR24HPC1 Module Reset
     icon: mdi:power-cycle
     on_press:
       then:
         - uart.write: [ 0x53,0x59,0x01,0x02,0x00,0x01,0x0F,0xBF,0x54,0x43 ]
 
   - platform: template
-    name: "Presence Inquiry"
-    id: "presence_inquiry"
+    id: mr24hpc1_presence_inquiry
+    name: MR24HPC1 Presence Inquiry
     icon: mdi:refresh
     on_press:
       then:
         - uart.write: [ 0x53,0x59,0x80,0x81,0x00,0x01,0x0F,0xBD,0x54,0x43 ]
 
   - platform: template
-    name: "Motion Inquiry"
-    id: "motion_inquiry"
+    id: mr24hpc1_motion_inquiry
+    name: MR24HPC1 Motion Inquiry
     icon: mdi:refresh
     on_press:
       then:
         - uart.write: [ 0x53,0x59,0x80,0x82,0x00,0x01,0x0F,0xBE,0x54,0x43 ]
 
   - platform: template
-    name: "Proximity Inquiry"
-    id: "proximity_inquiry"
+    id: mr24hpc1_proximity_inquiry
+    name: MR24HPC1 Proximity Inquiry
     icon: mdi:refresh
     on_press:
       then:
@@ -118,26 +121,26 @@ button:
 
 select:
   - platform: template
-    name: "Scene Mode"
-    id: scene_mode
+    id: mr24hpc1_scene_mode
+    name: MR24HPC1 Scene Mode
     icon: mdi:home-map-marker
     optimistic: true
     options:
-      - "Living room"
-      - "Bedroom"
-      - "Bathroom"
-      - "Area detection"
-    initial_option: "Living room"
+      - Living room
+      - Bedroom
+      - Bathroom
+      - Area detection
+    initial_option: Living room
     set_action:
       - uart.write: !lambda
-                  auto index = id(scene_mode).index_of(x);
+                  auto index = id(mr24hpc1_scene_mode).index_of(x);
                   uint8_t value = (uint8_t)index.value() + 1;
                   uint8_t crc = value + 0xB9;
                   return { 0x53,0x59,0x05,0x07,0x00,0x01,value,crc,0x54,0x43 };  
 
   - platform: template
-    name: "Time until unoccupied"
-    id: unoccupied_time
+    id: mr24hpc1_unoccupied_time
+    name: MR24HPC1 Time until unoccupied
     icon: mdi:timeline-clock
     optimistic: true
     options:
@@ -150,18 +153,18 @@ select:
       - "10min"
       - "30min"
       - "1hour"
-    initial_option: "30s"
+    initial_option: 30s
     set_action:
       - uart.write: !lambda
-                  auto index = id(unoccupied_time).index_of(x);
+                  auto index = id(mr24hpc1_unoccupied_time).index_of(x);
                   uint8_t value = (uint8_t)index.value();
                   uint8_t crc = value + 0x37;
                   return { 0x53,0x59,0x80,0x0a,0x00,0x01,value,crc,0x54,0x43 };
 
 number:
   - platform: template
-    id: sensitivity
-    name: "Sensitivity"
+    id: mr24hpc1_sensitivity
+    name: MR24HPC1 Sensitivity
     icon: mdi:tune
     min_value: 0
     max_value: 3
