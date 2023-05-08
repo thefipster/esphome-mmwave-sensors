@@ -6,6 +6,7 @@ Formerly sold as `24GHz mmWave Sensor - Human Stationary Presence Module` by `Se
 
 * Presence
 * Motion
+* Body Movement
 * Proximity (Object approaching or moving away from sensor)
 
 ## Links

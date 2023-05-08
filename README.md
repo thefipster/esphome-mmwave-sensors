@@ -5,8 +5,8 @@ Collection of header files and esphome yaml configs to integrate some Seeed Stud
 Currently the following sensors are partially implemented
 
 * Seeed Studio
-  * `MR24D` - 24 GHz Human Stationary Sensor
-  * `R24D` - 24 GHz Human Static Presence Lite
+  * `MR24HPB1` - 24 GHz Human Stationary Sensor
+  * `MR24HPC1` - 24 GHz Human Static Presence Lite
   * `R60A` - 60 GHz Respiratory Heartbeat Sensor
 
 ## Table of Contents
@@ -34,14 +34,14 @@ Currently the following sensors are partially implemented
 
 If you don't bother or use all the supported sensors just copy all files from the header directory.
 
-* `MR24D`
+* `MR24HPB1`
   * Headers
     * header/mr24d.h
     * header/mrx_definitions.h
     * header/mrx_frame.h
   * ESPHome Config
     * esphome/mr24d.yaml
-* `R24D`
+* `MR24HPC1`
   * Headers
     * header/r24d.h
     * header/rx_definitions.h

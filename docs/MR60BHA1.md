@@ -1,13 +1,16 @@
-# MR24HPC1
+# MR60BHA1
 
-Sold as `24GHz mmWave Sensor Human Static Presence Module Lite` by `Seeed Studio`
+Sold as `60GHz mmWave Module - Respiratory Heartbeat Detection` by `Seeed Studio`
 
 ## Functions
 
 * Presence
 * Motion
 * Body Movement
-* Proximity (Object approaching or moving away from sensor)
+* Distance
+* Orientation (Angles relative from sensor to object)
+* Heartbeat
+* Breathing rate
 
 ## Links
 
