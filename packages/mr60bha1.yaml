@@ -1,6 +1,8 @@
 substitutions:
   device_id: test-mmwave-mr60bha1
   device_name: Test mmWave MR60BHA1
+  uart_rx_pin: "16"
+  uart_tx_pin: "17"
 
 esphome:
   name: ${device_id}
@@ -41,8 +43,8 @@ http_request:
 uart:
   id: soft_uart2
   baud_rate:  115200
-  rx_pin: 16
-  tx_pin: 17
+  rx_pin: ${uart_rx_pin}
+  tx_pin: ${uart_tx_pin}
 
 sensor:
   - platform: custom
