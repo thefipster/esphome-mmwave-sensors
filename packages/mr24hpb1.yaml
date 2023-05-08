@@ -43,7 +43,7 @@ http_request:
   timeout: 2s
   
 uart:
-  id: uart2
+  id: soft_uart2
   baud_rate:  9600
   rx_pin: ${uart_rx_pin}
   tx_pin: ${uart_tx_pin}
@@ -51,7 +51,7 @@ uart:
 sensor:
   - platform: custom
     lambda: |-
-      auto mr24hpb1 = new MR24HPB1(id(uart2)); 
+      auto mr24hpb1 = new MR24HPB1(id(soft_uart2)); 
       App.register_component(mr24hpb1);
       return {mr24hpb1->presence_sensor, mr24hpb1->motion_sensor, mr24hpb1->proximity_sensor, mr24hpb1->body_sensor};
     sensors:

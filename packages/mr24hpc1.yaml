@@ -18,7 +18,7 @@ logger:
     sensor: INFO
   
 uart:
-  id: uart2
+  id: soft_uart2
   baud_rate:  115200
   rx_pin: ${uart_rx_pin}
   tx_pin: ${uart_tx_pin}
@@ -26,7 +26,7 @@ uart:
 sensor:
   - platform: custom
     lambda: |-
-      auto mr24hpc1 = new MR24HPC1(id(uart2)); 
+      auto mr24hpc1 = new MR24HPC1(id(soft_uart2)); 
       App.register_component(mr24hpc1);
       return { mr24hpc1->presence_sensor, mr24hpc1->motion_sensor, mr24hpc1->proximity_sensor, mr24hpc1->body_sensor };
     sensors:

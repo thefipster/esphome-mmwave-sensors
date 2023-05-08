@@ -39,7 +39,7 @@ http_request:
   timeout: 2s
   
 uart:
-  id: soft_uart_1
+  id: soft_uart2
   baud_rate:  115200
   rx_pin: 16
   tx_pin: 17
@@ -47,7 +47,7 @@ uart:
 sensor:
   - platform: custom
     lambda: |-
-      auto r60a_sensor = new MR60BHA1(id(soft_uart_1)); 
+      auto r60a_sensor = new MR60BHA1(id(soft_uart2)); 
       App.register_component(r60a_sensor);
       return { r60a_sensor->presence_sensor, r60a_sensor->motion_sensor, r60a_sensor->distance_sensor, r60a_sensor->x_sensor, r60a_sensor->y_sensor, r60a_sensor->z_sensor, r60a_sensor->heartrate_sensor, r60a_sensor->breathing_sensor, r60a_sensor->breathing_info_sensor, r60a_sensor->body_movement_sensor, r60a_sensor->radar_oob_sensor };
     sensors:
