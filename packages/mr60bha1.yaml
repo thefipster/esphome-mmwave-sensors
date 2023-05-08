@@ -1,12 +1,11 @@
 substitutions:
-  device_id: test-mmwave-r60a
-  device_name: Test mmWave R60A
+  device_id: test-mmwave-mr60bha1
+  device_name: Test mmWave MR60BHA1
 
 esphome:
   name: ${device_id}
   friendly_name: ${device_name}
   includes:
-  - header/r60a_definitions.h
   - header/r60a_frame.h
   - header/r60a.h
 
@@ -48,7 +47,7 @@ uart:
 sensor:
   - platform: custom
     lambda: |-
-      auto r60a_sensor = new UARTSensor(id(soft_uart_1)); 
+      auto r60a_sensor = new MR60BHA1(id(soft_uart_1)); 
       App.register_component(r60a_sensor);
       return { r60a_sensor->presence_sensor, r60a_sensor->motion_sensor, r60a_sensor->distance_sensor, r60a_sensor->x_sensor, r60a_sensor->y_sensor, r60a_sensor->z_sensor, r60a_sensor->heartrate_sensor, r60a_sensor->breathing_sensor, r60a_sensor->breathing_info_sensor, r60a_sensor->body_movement_sensor, r60a_sensor->radar_oob_sensor };
     sensors:

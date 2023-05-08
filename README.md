@@ -7,7 +7,7 @@ Currently the following sensors are partially implemented
 * Seeed Studio
   * `MR24HPB1` - 24 GHz Human Stationary Sensor
   * `MR24HPC1` - 24 GHz Human Static Presence Lite
-  * `R60A` - 60 GHz Respiratory Heartbeat Sensor
+  * `MR60BHA1` - 60 GHz Respiratory Heartbeat Sensor
 
 ## Table of Contents
 
@@ -48,7 +48,7 @@ If you don't bother or use all the supported sensors just copy all files from th
     * header/rx_frame.h
   * ESPHome Config
     * esphome/r24d.yaml
-* `R60A`
+* `MR60BHA1`
   * Headers
     * header/r60a.h
     * header/rx_definitions.h
@@ -56,7 +56,7 @@ If you don't bother or use all the supported sensors just copy all files from th
   * ESPHome Config
     * esphome/r60a.yaml
 
-The `R24D` and `R60A` sensor use the same frame definition and thus share the header files `rx_definitions.h` and `rx_frame.h`.
+The `MR24HPC1` and `MR60BHA1` sensor use the same frame definition and thus share the header files `rx_definitions.h` and `rx_frame.h`.
 
 ### Hardware
 
@@ -105,9 +105,9 @@ You can change the name of the `header` directory in home assistant if it doesn'
 
 ## Supported Functions
 
-The `R24D` and `R60A` sensor also support multiple inputs to reset, change operation modes and query specific sensor states.
+The `MR24HPC1` and `MR60BHA1` sensor also support multiple inputs to reset, change operation modes and query specific sensor states.
 
-|                     | `MR24D` | `R24D` | `R60A` | Info                                                                      |
+|                     | `MR24HPB1` | `MR24HPC1` | `MR60BHA1` | Info                                                                      |
 |---------------------|---------|--------|--------|---------------------------------------------------------------------------|
 | presence            | x       | x      | x      | binary (detected/clear)                                                   |
 | motion              | x       | x      | x      | binary (detected/clear)                                                   |
