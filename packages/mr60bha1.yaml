@@ -1,6 +1,8 @@
 substitutions:
   device_id: test-mmwave-mr60bha1
   device_name: Test mmWave MR60BHA1
+  header_frame: headers/mrx_frame.h
+  header_sensor: headers/mr60bha1.h
   uart_rx_pin: "16"
   uart_tx_pin: "17"
 
@@ -8,37 +10,12 @@ esphome:
   name: ${device_id}
   friendly_name: ${device_name}
   includes:
-  - header/r60a_frame.h
-  - header/r60a.h
-
-esp32:
-  board: esp32dev
-  framework:
-    type: arduino
+  - ${header_frame}
+  - ${header_sensor}
 
 logger:
   logs:
     sensor: INFO
-
-api:
-  encryption:
-    key: ""
-
-ota:
-  password: ""
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-web_server:
-  port: 80
-  version: 2
-  include_internal: true
-
-http_request:
-  useragent: esphome/${device_id}
-  timeout: 2s
   
 uart:
   id: soft_uart2
