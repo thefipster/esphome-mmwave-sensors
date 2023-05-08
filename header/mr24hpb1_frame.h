@@ -39,9 +39,6 @@ struct MR24HPB1_Frame
         }
     }
 
-    // index 2 and 3 of the byte vector define the message type
-    // 2: control word
-    // 3: command word
     int get_type()
     {
         switch (bytes[3])
@@ -53,7 +50,6 @@ struct MR24HPB1_Frame
         }
     }
 
-    // 0x53 0x59 0x01 [...]
     int get_proactive_report_type()
     {
         switch (bytes[4])
@@ -110,9 +106,6 @@ struct MR24HPB1_Frame
         }
     }
 
-    // warning
-    // product information message contain more than one byte of data!
-    // these messages are not implemented so far
     int get_value()
     {
         int value = 0;

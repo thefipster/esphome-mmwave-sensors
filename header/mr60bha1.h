@@ -1,5 +1,5 @@
 #include "esphome.h"
-#include "rx_frame.h"
+#include "mrx_frame.h"
 
 using namespace esphome;
 
@@ -8,7 +8,7 @@ class MR60BHA1 : public Component, public UARTDevice
 public:
     MR60BHA1(UARTComponent *parent) : UARTDevice(parent) {}
 
-    RX_Frame frame;
+    MRX_Frame frame;
 
     Sensor *presence_sensor = new Sensor();
     Sensor *motion_sensor = new Sensor();

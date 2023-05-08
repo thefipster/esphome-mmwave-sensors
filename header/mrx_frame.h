@@ -35,7 +35,7 @@
 #define BREATHING_WAVEFORM 30
 #define BREATHING_WAVEFORM_INQUIRY 31
 
-struct RX_Frame
+struct MRX_Frame
 {
     char hexmap[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
     std::vector<int> bytes;

@@ -1,0 +1,22 @@
+substitutions:
+  device_id: my-mmwave-sensor
+  device_name: My mmWave Sensor
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+api:
+  encryption:
+    key: "{{YOUR ENCRYPTION KEY}}"
+
+ota:
+  password: "{{YOUR OTA PASSWORD}}"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+packages:
+  device_base: !include packages/mr60bha1.yaml
