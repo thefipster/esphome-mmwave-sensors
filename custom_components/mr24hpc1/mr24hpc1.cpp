@@ -6,16 +6,13 @@ namespace esphome
     {
         static const char *TAG = "mr24hpc1";
 
-        void MR24HPC1::setup()
-        {
-            ESP_LOGI(TAG, "setup");
-        }
+        void MR24HPC1::setup() {}
 
         void MR24HPC1::loop()
         {
-            while (available())
+            while (this->available())
             {
-                int data = read();
+                int data = this->read();
                 frame.push(data);
                 if (frame.complete)
                 {
@@ -25,10 +22,6 @@ namespace esphome
             }
         }
 
-        void MR24HPC1::update() {
-        
-        }
-
         float MR24HPC1::get_setup_priority() const
         {
             return esphome::setup_priority::AFTER_CONNECTION;
@@ -36,8 +29,9 @@ namespace esphome
 
         void MR24HPC1::dump_config()
         {
-            ESP_LOGCONFIG(TAG, "MR24HPC1:");
+            ESP_LOGCONFIG(TAG, "MR24HPC1: ");
             LOG_SENSOR("  ", "Presence", this->presence_sensor_);
+            LOG_SENSOR("  ", "Motion", this->motion_sensor_);
         }
 
         void MR24HPC1::process()
@@ -64,7 +58,7 @@ namespace esphome
                 break;
 
             case BODY_MOVEMENT:
-                //body_sensor->publish_state(value);
+                // body_sensor->publish_state(value);
                 break;
 
             case MOTION:
@@ -75,7 +69,7 @@ namespace esphome
 
             case PROXIMITY:
             case PROXIMITY_INQUIRY:
-                //proximity_sensor->publish_state(value);
+                // proximity_sensor->publish_state(value);
                 break;
 
             case SCENE_RESPONSE:

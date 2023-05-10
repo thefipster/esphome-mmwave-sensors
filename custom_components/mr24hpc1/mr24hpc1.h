@@ -10,14 +10,13 @@ namespace esphome
 {
     namespace mr24hpc1
     {
-        class MR24HPC1 : public sensor::Sensor, public uart::UARTDevice
+        class MR24HPC1 : public Component, public uart::UARTDevice
         {
         public:
             MRX_Frame frame;
 
             void setup() override;
             void loop() override;
-            void update() override;
             void dump_config() override;
             float get_setup_priority() const override;
 

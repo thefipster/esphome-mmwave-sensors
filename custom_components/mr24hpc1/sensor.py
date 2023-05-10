@@ -22,7 +22,7 @@ CONF_MOTION = "motion"
 
 CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(): cv.declare_id(MR24HPC1),
-    cv.Optional(CONF_PRESENCE):
+    cv.Required(CONF_PRESENCE):
         sensor.sensor_schema(
             unit_of_measurement=UNIT_EMPTY,
             icon=ICON_EMPTY,
@@ -37,12 +37,13 @@ CONFIG_SCHEMA = cv.Schema({
             accuracy_decimals=0,
             device_class=DEVICE_CLASS_EMPTY,
             state_class=STATE_CLASS_MEASUREMENT,
-        ).extend(),
+        )
 }).extend(cv.COMPONENT_SCHEMA).extend(uart.UART_DEVICE_SCHEMA)
 
 def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     yield cg.register_component(var, config)
+    yield uart.register_uart_device(var, config)
 
     if CONF_PRESENCE in config:
         conf = config[CONF_PRESENCE]
