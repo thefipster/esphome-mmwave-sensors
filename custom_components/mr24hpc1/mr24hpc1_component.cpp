@@ -1,4 +1,4 @@
-#include "mr24hpc1.h"
+#include "mr24hpc1_component.h"
 
 namespace esphome
 {
@@ -6,9 +6,9 @@ namespace esphome
     {
         static const char *TAG = "mr24hpc1";
 
-        void MR24HPC1::setup() {}
+        void MR24HPC1Component::setup() {}
 
-        void MR24HPC1::loop()
+        void MR24HPC1Component::loop()
         {
             while (this->available())
             {
@@ -22,19 +22,21 @@ namespace esphome
             }
         }
 
-        float MR24HPC1::get_setup_priority() const
+        float MR24HPC1Component::get_setup_priority() const
         {
             return esphome::setup_priority::AFTER_CONNECTION;
         }
 
-        void MR24HPC1::dump_config()
+        void MR24HPC1Component::dump_config()
         {
             ESP_LOGCONFIG(TAG, "MR24HPC1: ");
             LOG_SENSOR("  ", "Presence", this->presence_sensor_);
             LOG_SENSOR("  ", "Motion", this->motion_sensor_);
+            LOG_SENSOR("  ", "Body", this->body_sensor_);
+            LOG_SENSOR("  ", "Proximity", this->proximity_sensor_);
         }
 
-        void MR24HPC1::process()
+        void MR24HPC1Component::process()
         {
             int value = frame.get_value();
             switch (frame.type)
@@ -54,22 +56,24 @@ namespace esphome
             case PRESENCE:
             case PRESENCE_INQUIRY:
                 if (this->presence_sensor_ != nullptr)
-                    this->presence_sensor_->publish_state(value);
+                    this->presence_sensor_->publish_state(value == 1);
                 break;
 
             case BODY_MOVEMENT:
-                // body_sensor->publish_state(value);
+                if (this->body_sensor_ != nullptr)
+                    this->body_sensor_->publish_state(value);
                 break;
 
             case MOTION:
             case MOTION_INQUIRY:
                 if (this->motion_sensor_ != nullptr)
-                    this->motion_sensor_->publish_state(value);
+                    this->motion_sensor_->publish_state(value == 2);
                 break;
 
             case PROXIMITY:
             case PROXIMITY_INQUIRY:
-                // proximity_sensor->publish_state(value);
+                if (this->proximity_sensor_ != nullptr)
+                    this->proximity_sensor_->publish_state(value);
                 break;
 
             case SCENE_RESPONSE:
