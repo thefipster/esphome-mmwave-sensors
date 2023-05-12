@@ -13,6 +13,7 @@ Currently the following sensors are partially implemented
 
 - [ESPHome integration for mmWave sensors](#esphome-integration-for-mmwave-sensors)
   - [Table of Contents](#table-of-contents)
+  - [Roadmap](#roadmap)
   - [Installation](#installation)
     - [Files](#files)
     - [Hardware](#hardware)
@@ -22,6 +23,14 @@ Currently the following sensors are partially implemented
   - [Supported Functions](#supported-functions)
   - [Contributing](#contributing)
   - [License](#license)
+
+## Roadmap
+
+* Implement missing SeeedStudio Sensors (MR24BSD1 & MR60FDA1)
+* Implement other sensors from CGRobot and DFRobot
+* Make documentation cleaner and enhance with screenshots and plots
+* Implement sensors as proper external components
+  * Are there proper docs on how the config validation part of esphome works?
 
 ## Installation
 
