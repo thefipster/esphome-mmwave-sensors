@@ -131,11 +131,11 @@ The `MR24HPC1` and `MR60BHA1` sensor also support multiple inputs to reset, chan
 
 ### Device Website
 
-[<img src="images/mr24hpc1_web_server.png" alt="MR24HPC1 Sensor" width="800">](/images/mr24hpc1_sensor.jpg)
+[<img src="images/mr24hpc1_web_server.png" alt="MR24HPC1 Sensor" width="800">](/images/mr24hpc1_web_server.png)
 
 ### Home Assistant
 
-[<img src="images/mr24hpc1_home_assistant.png" alt="MR24HPC1 Sensor" width="800">](/images/mr24hpc1_sensor.jpg)
+[<img src="images/mr24hpc1_home_assistant.png" alt="MR24HPC1 Sensor" width="800">](/images/mr24hpc1_home_assistant.png)
 
 ## MR60HBA1
 
@@ -145,11 +145,11 @@ The `MR24HPC1` and `MR60BHA1` sensor also support multiple inputs to reset, chan
 
 ### Device Website
 
-[<img src="images/mr60bha1_web_server.png" alt="MR60HBA1 Sensor" width="800">](/images/mr60bha1_sensor.jpg)
+[<img src="images/mr60bha1_web_server.png" alt="MR60HBA1 Sensor" width="800">](/images/mr60bha1_web_server.png)
 
 ### Home Assistant
 
-[<img src="images/mr60bha1_home_assistant.png" alt="MR60HBA1 Sensor" width="800">](/images/mr60bha1_sensor.jpg)
+[<img src="images/mr60bha1_home_assistant.png" alt="MR60HBA1 Sensor" width="800">](/images/mr60bha1_home_assistant.png)
 
 ## Contributing
 
