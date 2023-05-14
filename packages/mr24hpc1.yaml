@@ -31,40 +31,40 @@ sensor:
       return { mr24hpc1->presence_sensor, mr24hpc1->motion_sensor, mr24hpc1->proximity_sensor, mr24hpc1->body_sensor };
     sensors:
       - id: presence_sensor
-        name: MR24HPC1 Internal Presense Sensor
+        name: Presense Sensor
         internal: true
         on_value:
           - binary_sensor.template.publish:
               id: mr24hpc1_presence_template
               state: !lambda return x > 0;
       - id: motion_sensor
-        name: MR24HPC1 Internal Motion Sensor
+        name: Motion Sensor
         internal: true
         on_value:
           - binary_sensor.template.publish:
               id: mr24hpc1_motion_template
               state: !lambda return x > 0;
       - id: proximity_sensor
-        name: MR24HPC1 Proximity
+        name: Proximity
         state_class: measurement   
       - id: body_sensor
-        name: MR24HPC1 Body Movement
+        name: Body Movement
         state_class: measurement   
 
 binary_sensor:
   - platform: template
     id: mr24hpc1_presence_template
-    name: MR24HPC1 Presence
+    name: Presence
     device_class: occupancy
   - platform: template
     id: mr24hpc1_motion_template
-    name: MR24HPC1 Motion
+    name: Motion
     device_class: motion
 
 button:
   - platform: template
     id: mr24hpc1_reset
-    name: MR24HPC1 Module Reset
+    name: Module Reset
     icon: mdi:power-cycle
     on_press:
       then:
@@ -72,7 +72,7 @@ button:
 
   - platform: template
     id: mr24hpc1_presence_inquiry
-    name: MR24HPC1 Presence Inquiry
+    name: Presence Inquiry
     icon: mdi:refresh
     on_press:
       then:
@@ -80,7 +80,7 @@ button:
 
   - platform: template
     id: mr24hpc1_motion_inquiry
-    name: MR24HPC1 Motion Inquiry
+    name: Motion Inquiry
     icon: mdi:refresh
     on_press:
       then:
@@ -88,7 +88,7 @@ button:
 
   - platform: template
     id: mr24hpc1_proximity_inquiry
-    name: MR24HPC1 Proximity Inquiry
+    name: Proximity Inquiry
     icon: mdi:refresh
     on_press:
       then:
@@ -97,7 +97,7 @@ button:
 select:
   - platform: template
     id: mr24hpc1_scene_mode
-    name: MR24HPC1 Scene Mode
+    name: Scene Mode
     icon: mdi:home-map-marker
     optimistic: true
     options:
@@ -115,7 +115,7 @@ select:
 
   - platform: template
     id: mr24hpc1_unoccupied_time
-    name: MR24HPC1 Time until unoccupied
+    name: Time until unoccupied
     icon: mdi:timeline-clock
     optimistic: true
     options:
@@ -139,7 +139,7 @@ select:
 number:
   - platform: template
     id: mr24hpc1_sensitivity
-    name: MR24HPC1 Sensitivity
+    name: Sensitivity
     icon: mdi:tune
     min_value: 0
     max_value: 3

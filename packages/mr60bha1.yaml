@@ -26,19 +26,19 @@ uart:
 sensor:
   - platform: custom
     lambda: |-
-      auto r60a_sensor = new MR60BHA1(id(soft_uart2)); 
-      App.register_component(r60a_sensor);
-      return { r60a_sensor->presence_sensor, r60a_sensor->motion_sensor, r60a_sensor->distance_sensor, r60a_sensor->x_sensor, r60a_sensor->y_sensor, r60a_sensor->z_sensor, r60a_sensor->heartrate_sensor, r60a_sensor->breathing_sensor, r60a_sensor->breathing_info_sensor, r60a_sensor->body_movement_sensor, r60a_sensor->radar_oob_sensor };
+      auto mr60bha1_sensor = new MR60BHA1(id(soft_uart2)); 
+      App.register_component(mr60bha1_sensor);
+      return { mr60bha1_sensor->presence_sensor, mr60bha1_sensor->motion_sensor, mr60bha1_sensor->distance_sensor, mr60bha1_sensor->x_sensor, mr60bha1_sensor->y_sensor, mr60bha1_sensor->z_sensor, mr60bha1_sensor->heartrate_sensor, mr60bha1_sensor->breathing_sensor, mr60bha1_sensor->breathing_info_sensor, mr60bha1_sensor->body_movement_sensor, mr60bha1_sensor->radar_oob_sensor };
     sensors:
       - id: presence_sensor
-        name: "Internal Presense Sensor"
+        name: "Presense Sensor"
         internal: true
         on_value:
           - binary_sensor.template.publish:
               id: presence_template
               state: !lambda return x > 0;
       - id: motion_sensor
-        name: "Internal Motion Sensor"
+        name: "Motion Sensor"
         internal: true
         on_value:
           - binary_sensor.template.publish:

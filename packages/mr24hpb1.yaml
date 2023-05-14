@@ -31,32 +31,32 @@ sensor:
       return {mr24hpb1->presence_sensor, mr24hpb1->motion_sensor, mr24hpb1->proximity_sensor, mr24hpb1->body_sensor};
     sensors:
       - id: presence_sensor
-        name: MR24HPB1 Internal Presense Sensor
+        name: Internal Presense Sensor
         internal: true
         on_value:
           - binary_sensor.template.publish:
               id: presence_template
               state: !lambda return x > 0;
       - id: motion_sensor
-        name: MR24HPB1 Internal Motion Sensor
+        name: Internal Motion Sensor
         internal: true
         on_value:
           - binary_sensor.template.publish:
               id: motion_template
               state: !lambda return x > 0;
       - id: proximity_sensor
-        name: MR24HPB1 Proximity
+        name: Proximity
         state_class: measurement   
       - id: body_sensor
-        name: MR24HPB1 Body Movement
+        name: Body Movement
         state_class: measurement   
         
 binary_sensor:
   - id: presence_template
     platform: template
-    name: MR24HPB1 Presence
+    name: Presence
     device_class: occupancy
   - id: motion_template
     platform: template
-    name: MR24HPB1 Motion
+    name: Motion
     device_class: motion

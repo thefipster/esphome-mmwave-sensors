@@ -1,6 +1,6 @@
 substitutions:
-  device_id: my-mmwave-sensor
-  device_name: My mmWave Sensor
+  device_id: my-mr60bha1-sensor
+  device_name: My MR60BHA1 Sensor
 
 esp32:
   board: esp32dev

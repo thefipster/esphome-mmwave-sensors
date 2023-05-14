@@ -1,6 +1,6 @@
 substitutions:
-  device_id: my-mmwave-sensor
-  device_name: My mmWave Sensor
+  device_id: my-mr24hpc1-sensor
+  device_name: My MR24HPC1 Sensor
 
 esp32:
   board: esp32dev
@@ -20,3 +20,9 @@ wifi:
 
 packages:
   device_base: !include packages/mr24hpc1.yaml
+
+# packages:
+#   remote_package:
+#     url: https://github.com/thefipster/esphome-mmwave-sensors
+#     ref: release
+#     files: [packages/mr24hpc1.yaml]

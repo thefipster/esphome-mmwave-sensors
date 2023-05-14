@@ -21,16 +21,23 @@ Currently the following sensors are partially implemented
       - [Wiring](#wiring)
     - [ESPHome Device](#esphome-device)
   - [Supported Functions](#supported-functions)
+  - [MR24HPC1](#mr24hpc1)
+    - [Sensor](#sensor)
+    - [Device Website](#device-website)
+    - [Home Assistant](#home-assistant)
+  - [MR60HBA1](#mr60hba1)
+    - [Sensor](#sensor-1)
+    - [Device Website](#device-website-1)
+    - [Home Assistant](#home-assistant-1)
   - [Contributing](#contributing)
   - [License](#license)
 
 ## Roadmap
 
 * Implement missing SeeedStudio Sensors (MR24BSD1 & MR60FDA1)
-* Implement other sensors from CGRobot and DFRobot
 * Make documentation cleaner and enhance with screenshots and plots
 * Implement sensors as proper external components
-  * Are there proper docs on how the config validation part of esphome works?
+  * Are there proper docs on how the config validation/generation part of esphome works?
 
 ## Installation
 
@@ -115,11 +122,40 @@ The `MR24HPC1` and `MR60BHA1` sensor also support multiple inputs to reset, chan
 | breathing info      |         |        | x      | measurement  (1: normal,  2: fast,  3: slow, 4: none)                     |
 | radar out of bounds |         |        | x      | measurement (0: out of range, 1: within range)                            |
 
+
+## MR24HPC1
+
+### Sensor
+
+[<img src="images/mr24hpc1_sensor.jpg" alt="MR24HPC1 Sensor" width="400">](/images/mr24hpc1_sensor.jpg)
+
+### Device Website
+
+[<img src="images/mr24hpc1_web_server.png" alt="MR24HPC1 Sensor" width="800">](/images/mr24hpc1_sensor.jpg)
+
+### Home Assistant
+
+[<img src="images/mr24hpc1_home_assistant.png" alt="MR24HPC1 Sensor" width="800">](/images/mr24hpc1_sensor.jpg)
+
+## MR60HBA1
+
+### Sensor
+
+[<img src="images/mr60bha1_sensor.jpg" alt="MR60HBA1 Sensor" width="400">](/images/mr60bha1_sensor.jpg)
+
+### Device Website
+
+[<img src="images/mr60bha1_web_server.png" alt="MR60HBA1 Sensor" width="800">](/images/mr60bha1_sensor.jpg)
+
+### Home Assistant
+
+[<img src="images/mr60bha1_home_assistant.png" alt="MR60HBA1 Sensor" width="800">](/images/mr60bha1_sensor.jpg)
+
 ## Contributing
 
-Since C++ is not my strongest of languages and this is my first implementation which is interacting with ESPHome, Home Assistant and the uart protocol in general, there are probably a lot of things that can be done easier or cleaner. 
+Since C++ is not my strongest of languages and this is my first implementation which is interacting with ESPHome, Home Assistant and the uart protocol in general, there are probably a lot of things that can be done easier or cleaner.
 
-Please feel free to dive in! [Open an issue](https://github.com/thefipster/esphome_mmwave_sensors/issues/new) or submit PRs. 
+Please feel free to dive in! [Open an issue](https://github.com/thefipster/esphome_mmwave_sensors/issues/new) or submit PRs.
 
 ## License
 
