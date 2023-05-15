@@ -28,7 +28,7 @@ sensor:
     lambda: |-
       auto mr24hpc1 = new MR24HPC1(id(soft_uart2)); 
       App.register_component(mr24hpc1);
-      return { mr24hpc1->presence_sensor, mr24hpc1->motion_sensor, mr24hpc1->proximity_sensor, mr24hpc1->body_sensor };
+      return { mr24hpc1->presence_sensor, mr24hpc1->motion_sensor, mr24hpc1->status_sensor, mr24hpc1->scene_sensor, mr24hpc1->sensitivity_sensor, mr24hpc1->unoccupied_time_sensor, mr24hpc1->proximity_sensor, mr24hpc1->body_sensor };
     sensors:
       - id: presence_sensor
         name: Presense Sensor
@@ -44,12 +44,56 @@ sensor:
           - binary_sensor.template.publish:
               id: mr24hpc1_motion_template
               state: !lambda return x > 0;
+      - id: status_sensor
+        name: Status Sensor
+        state_class: measurement
+        internal: true
+        on_value:
+          - binary_sensor.template.publish:
+              id: mr24hpc1_status_template
+              state: !lambda return x == 1;
+      - id: scene_sensor
+        name: Scene Mode Sensor
+        state_class: measurement
+        internal: true
+        on_value:
+          then:
+            - lambda: |- 
+                auto option = id(mr24hpc1_scene_mode).at(x - 1);
+                if (option.has_value()) {
+                  auto value = option.value();
+                  id(mr24hpc1_scene_mode).publish_state(value);
+                }
+      - id: sensitivity_sensor
+        name: Sensitivity Sensor
+        state_class: measurement
+        internal: true
+        on_value:
+          then:
+            - lambda: |- 
+                auto option = id(mr24hpc1_sensitivity).at(x - 1);
+                if (option.has_value()) {
+                  auto value = option.value();
+                  id(mr24hpc1_sensitivity).publish_state(value);
+                }
+      - id: unoccupied_time_sensor
+        name: Time until unoccupied Sensor
+        state_class: measurement
+        internal: true
+        on_value:
+          then:
+            - lambda: |- 
+                auto option = id(mr24hpc1_unoccupied_time).at(x);
+                if (option.has_value()) {
+                  auto value = option.value();
+                  id(mr24hpc1_unoccupied_time).publish_state(value);
+                }
       - id: proximity_sensor
         name: Proximity
-        state_class: measurement   
-      - id: body_movement_sensor
+        state_class: measurement
+      - id: body_sensor
         name: Body Movement
-        state_class: measurement   
+        state_class: measurement
 
 binary_sensor:
   - platform: template
@@ -60,6 +104,10 @@ binary_sensor:
     id: mr24hpc1_motion_template
     name: Motion
     device_class: motion
+  - platform: template
+    id: mr24hpc1_status_template
+    name: Status
+    device_class: running
 
 button:
   - platform: template
@@ -132,7 +180,7 @@ button:
     icon: mdi:refresh
     on_press:
       then:
-        - uart.write: [ 0x53,0x59,0x80,0x8A,0x00,0x01,0x0F,0xFC,0x54,0x43 ]
+        - uart.write: [ 0x53,0x59,0x80,0x8A,0x00,0x01,0x0F,0xC6,0x54,0x43 ]
 
   - platform: template
     id: mr24hpc1_proximity_inquiry
@@ -147,7 +195,6 @@ select:
     id: mr24hpc1_scene_mode
     name: Scene Mode
     icon: mdi:home-map-marker
-    optimistic: true
     options:
       - Living room
       - Bedroom
@@ -165,17 +212,16 @@ select:
     id: mr24hpc1_unoccupied_time
     name: Time until unoccupied
     icon: mdi:timeline-clock
-    optimistic: true
     options:
-      - "None"
-      - "10s"
-      - "30s"
-      - "1min"
-      - "2min" 
-      - "5min" 
-      - "10min"
-      - "30min"
-      - "1hour"
+      - None
+      - 10s
+      - 30s
+      - 1min
+      - 2min
+      - 5min
+      - 10min
+      - 30min
+      - 1hour
     initial_option: 30s
     set_action:
       - uart.write: !lambda
@@ -184,17 +230,18 @@ select:
                   uint8_t crc = value + 0x37;
                   return { 0x53,0x59,0x80,0x0a,0x00,0x01,value,crc,0x54,0x43 };
 
-number:
   - platform: template
     id: mr24hpc1_sensitivity
     name: Sensitivity
     icon: mdi:tune
-    min_value: 0
-    max_value: 3
-    optimistic: true
-    step: 1
+    options:
+      - 2.5m
+      - 3m
+      - 4m
+    initial_option: 4m
     set_action:
       - uart.write: !lambda
-                    uint8_t value = (uint8_t)x;
-                    uint8_t crc = x + 0xBA;
-                    return { 0x53,0x59,0x05,0x08,0x00,0x01,value,crc,0x54,0x43 };
+                  auto index = id(mr24hpc1_sensitivity).index_of(x);
+                  uint8_t value = (uint8_t)index.value() + 1;
+                  uint8_t crc = value + 0xBA;
+                  return { 0x53,0x59,0x05,0x08,0x00,0x01,value,crc,0x54,0x43 };

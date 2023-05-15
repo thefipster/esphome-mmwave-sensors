@@ -3,21 +3,26 @@
 
 using namespace esphome;
 
+static const char *TAG = "mr24hpc1";
+
 class MR24HPC1 : public Component, public UARTDevice
 {
 public:
     MR24HPC1(UARTComponent *parent) : UARTDevice(parent) {}
-
     MRX_Frame frame;
 
     Sensor *presence_sensor = new Sensor();
     Sensor *motion_sensor = new Sensor();
     Sensor *proximity_sensor = new Sensor();
     Sensor *body_sensor = new Sensor();
+    Sensor *scene_sensor = new Sensor();
+    Sensor *sensitivity_sensor = new Sensor();
+    Sensor *unoccupied_time_sensor = new Sensor();
+    Sensor *status_sensor = new Sensor();
 
     void setup()
     {
-        ESP_LOGI("r24d", "setup");
+        ESP_LOGI(TAG, "setup");
     }
 
     void loop()
@@ -40,51 +45,67 @@ public:
         switch (frame.type)
         {
         case HEARTBEAT:
-            ESP_LOGD("r24d", "heartbeat");
+            ESP_LOGD(TAG, "heartbeat");
             break;
 
         case RESET_RESPONSE:
-            ESP_LOGD("r24d", "resetting");
+            ESP_LOGD(TAG, "resetting");
             break;
 
         case INIT_COMPLETE:
-            ESP_LOGD("r24d", "init complete");
+            ESP_LOGD(TAG, "init complete");
+            break;
+
+        case STATUS_INQUIRY:
+            ESP_LOGD(TAG, "status %i", value);
+            status_sensor->publish_state(value);
             break;
 
         case PRESENCE:
         case PRESENCE_INQUIRY:
+            ESP_LOGD(TAG, "presence %i", value);
             presence_sensor->publish_state(value);
             break;
 
         case BODY_MOVEMENT:
+        case BODY_MOVEMENT_INQUIRY:
+            ESP_LOGD(TAG, "body movement %i", value);
             body_sensor->publish_state(value);
             break;
 
         case MOTION:
         case MOTION_INQUIRY:
+            ESP_LOGD(TAG, "motion %i", value);
             motion_sensor->publish_state(value);
             break;
 
         case PROXIMITY:
         case PROXIMITY_INQUIRY:
+            ESP_LOGD(TAG, "proximity %i", value);
             proximity_sensor->publish_state(value);
             break;
 
         case SCENE_RESPONSE:
-            ESP_LOGD("r24d", "scene mode change acknowledgement: %i",  value);
+        case SCENE_INQUIRY:
+            ESP_LOGD(TAG, "scene mode %i", value);
+            scene_sensor->publish_state(value);
             break;
 
         case SENSITIVITY_RESPONSE:
-            ESP_LOGD("r24d", "sensitivity change acknowledgement: %i",  value);
+        case SENSITIVITY_INQUIRY:
+            ESP_LOGD(TAG, "sensitivity %i", value);
+            sensitivity_sensor->publish_state(value);
             break;
 
         case TIME_TO_NO_PERSON_STATE_RESPONSE:
-            ESP_LOGD("r24d", "time to no person state change acknowledgement: %i",  value);
+        case TIME_TO_NO_PERSON_STATE_INQUIRY:
+            ESP_LOGD(TAG, "unoccupied time %i", value);
+            unoccupied_time_sensor->publish_state(value);
             break;
 
         default:
             std::string msg = frame.to_string();
-            ESP_LOGD("r24d", msg.c_str());
+            ESP_LOGD(TAG, msg.c_str());
         }
     }
 };

@@ -15,8 +15,8 @@
 #define PRESENCE_INQUIRY 10
 #define PROXIMITY_INQUIRY 11
 #define RESET_RESPONSE 12
-#define HEARTBEAT_INQUIRY 13
-#define INIT_COMPLETE_RESPONSE 14
+#define SCENE_INQUIRY 13
+#define STATUS_INQUIRY 14
 #define DISTANCE 15
 #define ORIENTATION 16
 #define BODY_MOVEMENT_INQUIRY 17
@@ -34,6 +34,8 @@
 #define BREATHING_INFO_INQUIRY 29
 #define BREATHING_WAVEFORM 30
 #define BREATHING_WAVEFORM_INQUIRY 31
+#define SENSITIVITY_INQUIRY 32
+#define TIME_TO_NO_PERSON_STATE_INQUIRY 33
 
 struct MRX_Frame
 {
@@ -86,8 +88,6 @@ struct MRX_Frame
             return HEARTBEAT;
         case 0x02:
             return RESET_RESPONSE;
-        case 0x80:
-            return HEARTBEAT_INQUIRY;
         default:
             return UNDEFINED;
         }
@@ -105,7 +105,11 @@ struct MRX_Frame
         case 0x08:
             return SENSITIVITY_RESPONSE;
         case 0x81:
-            return INIT_COMPLETE_RESPONSE;
+            return STATUS_INQUIRY;
+        case 0x87:
+            return SCENE_INQUIRY;
+        case 0x88:
+            return SENSITIVITY_INQUIRY;
         default:
             return UNDEFINED;
         }
@@ -153,6 +157,8 @@ struct MRX_Frame
             return DISTANCE_INQUIRY;
         case 0x85:
             return ORIENTATION_INQUIRY;
+        case 0x8A:
+            return TIME_TO_NO_PERSON_STATE_INQUIRY;
         case 0x8B:
             return PROXIMITY_INQUIRY;
         default:
