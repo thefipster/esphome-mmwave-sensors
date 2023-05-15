@@ -47,7 +47,7 @@ sensor:
       - id: proximity_sensor
         name: Proximity
         state_class: measurement   
-      - id: body_sensor
+      - id: body_movement_sensor
         name: Body Movement
         state_class: measurement   
 
@@ -63,12 +63,44 @@ binary_sensor:
 
 button:
   - platform: template
+    id: mr24hpc1_heartbeat_inquiry
+    name: Heartbeat Inquiry
+    icon: mdi:refresh
+    on_press:
+      then:
+        - uart.write: [ 0x53,0x59,0x01,0x01,0x00,0x01,0x0F,0xBE,0x54,0x43 ]
+
+  - platform: template
     id: mr24hpc1_reset
     name: Module Reset
     icon: mdi:power-cycle
     on_press:
       then:
         - uart.write: [ 0x53,0x59,0x01,0x02,0x00,0x01,0x0F,0xBF,0x54,0x43 ]
+
+  - platform: template
+    id: mr24hpc1_status_inquiry
+    name: Status Inquiry
+    icon: mdi:refresh
+    on_press:
+      then:
+        - uart.write: [ 0x53,0x59,0x05,0x81,0x00,0x01,0x0F,0x42,0x54,0x43 ]
+
+  - platform: template
+    id: mr24hpc1_scene_mode_inquiry
+    name: Scene Mode Inquiry
+    icon: mdi:refresh
+    on_press:
+      then:
+        - uart.write: [ 0x53,0x59,0x05,0x87,0x00,0x01,0x0F,0x48,0x54,0x43 ]
+
+  - platform: template
+    id: mr24hpc1_sensitivity_inquiry
+    name: Sensitivity Inquiry
+    icon: mdi:refresh
+    on_press:
+      then:
+        - uart.write: [ 0x53,0x59,0x05,0x88,0x00,0x01,0x0F,0x49,0x54,0x43 ]
 
   - platform: template
     id: mr24hpc1_presence_inquiry
@@ -85,6 +117,22 @@ button:
     on_press:
       then:
         - uart.write: [ 0x53,0x59,0x80,0x82,0x00,0x01,0x0F,0xBE,0x54,0x43 ]
+
+  - platform: template
+    id: mr24hpc1_body_movement_inquiry
+    name: Body Movement Inquiry
+    icon: mdi:refresh
+    on_press:
+      then:
+        - uart.write: [ 0x53,0x59,0x80,0x83,0x00,0x01,0x0F,0xBF,0x54,0x43 ]
+
+  - platform: template
+    id: mr24hpc1_unoccupied_time_inquiry
+    name: Time until unoccupied Inquiry
+    icon: mdi:refresh
+    on_press:
+      then:
+        - uart.write: [ 0x53,0x59,0x80,0x8A,0x00,0x01,0x0F,0xFC,0x54,0x43 ]
 
   - platform: template
     id: mr24hpc1_proximity_inquiry
