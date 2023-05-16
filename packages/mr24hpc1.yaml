@@ -190,6 +190,22 @@ button:
       then:
         - uart.write: [ 0x53,0x59,0x80,0x8B,0x00,0x01,0x0F,0xC7,0x54,0x43 ]
 
+  - platform: template
+    id: mr24hpc1_motion_to_still_inquiry
+    name: Motion to Still Inquiry
+    icon: mdi:refresh
+    on_press:
+      then:
+        - uart.write: [ 0x53,0x59,0x08,0x8D,0x00,0x01,0x0F,0x51,0x54,0x43 ]
+
+  - platform: template
+    id: mr24hpc1_no_person_state_time_inquiry
+    name: No Person State Time Inquiry
+    icon: mdi:refresh
+    on_press:
+      then:
+        - uart.write: [ 0x53,0x59,0x08,0x8E,0x00,0x01,0x0F,0x52,0x54,0x43 ]
+
 select:
   - platform: template
     id: mr24hpc1_scene_mode
@@ -245,3 +261,19 @@ select:
                   uint8_t value = (uint8_t)index.value() + 1;
                   uint8_t crc = value + 0xBA;
                   return { 0x53,0x59,0x05,0x08,0x00,0x01,value,crc,0x54,0x43 };
+
+  - platform: template
+    id: mr24hpc1_open_output
+    name: Open Function Output
+    icon: mdi:tune
+    options:
+      - "off"
+      - "on"
+    initial_option: "off"
+    optimistic: true
+    set_action:
+      - uart.write: !lambda
+                  auto index = id(mr24hpc1_open_output).index_of(x);
+                  uint8_t value = (uint8_t)index.value();
+                  uint8_t crc = value + 0xB5;
+                  return { 0x53,0x59,0x08,0x00,0x00,0x01,value,crc,0x54,0x43 };

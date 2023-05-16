@@ -36,6 +36,21 @@
 #define BREATHING_WAVEFORM_INQUIRY 31
 #define SENSITIVITY_INQUIRY 32
 #define TIME_TO_NO_PERSON_STATE_INQUIRY 33
+#define MOTION_TO_STILL_INQUIRY 34
+#define MOTION_TO_STILL_RESPONSE 35
+#define NO_PERSON_STATE_TIME_INQUIRY 36
+#define NO_PERSON_STATE_TIME_RESPONSE 37
+#define OPEN_OUTPUT_RESPONSE 38
+#define OPEN_SENSOR_REPORT 39
+#define OPEN_OUTPUT_INQUIRY 40
+#define EXISTANCE_ENERGY_INQUIRY 41
+#define MOTION_ENERGY_INQUIRY 42
+#define EXISTENCE_THRESHOLD_INQUIRY 43
+#define EXISTENCE_BOUNDARY_INQUIRY 44
+#define EXISTANCE_DISTANCE_INQUIRY 45
+#define MOTION_DISTANCE_INQUIRY 46
+
+static const uint8_t FRAME_PRESENCE_INQUIRY[] = {0x53, 0x59, 0x80, 0x81, 0x00, 0x01, 0x0F, 0xBD, 0x54, 0x43};
 
 struct MRX_Frame
 {
@@ -43,6 +58,7 @@ struct MRX_Frame
     std::vector<int> bytes;
     int type = UNDEFINED;
     bool complete = false;
+
 
     void push(int byte_token)
     {
@@ -68,6 +84,8 @@ struct MRX_Frame
             return get_work_status_type();
         case 0x07:
             return get_radar_detection_functions_type();
+        case 0x08:
+            return get_open_parameter_types();
         case 0x80:
             return get_human_presence_functions_type();
         case 0x81:
@@ -115,6 +133,7 @@ struct MRX_Frame
         }
     }
 
+    // 0x53 0x59 0x07 [...]
     int get_radar_detection_functions_type()
     {
         switch (bytes[3])
@@ -123,6 +142,42 @@ struct MRX_Frame
             return OUT_OF_BOUNDS;
         case 0x87:
             return OUT_OF_BOUNDS_INQUIRY;
+        default:
+            return UNDEFINED;
+        }
+    }
+
+    // 0x53 0x59 0x08 [...]
+    int get_open_parameter_types()
+    {
+        switch (bytes[3])
+        {
+        case 0x00:
+            return OPEN_OUTPUT_RESPONSE;
+        case 0x01:
+            return OPEN_SENSOR_REPORT;
+        case 0x0D:
+            return MOTION_TO_STILL_RESPONSE;
+        case 0x0E:
+            return NO_PERSON_STATE_TIME_RESPONSE;
+        case 0x80:
+            return OPEN_OUTPUT_INQUIRY;
+        case 0x81:
+            return EXISTANCE_ENERGY_INQUIRY;
+        case 0x82:
+            return MOTION_ENERGY_INQUIRY;
+        case 0x83:
+            return EXISTANCE_DISTANCE_INQUIRY;
+        case 0x84:
+            return MOTION_DISTANCE_INQUIRY;
+        case 0x88:
+            return EXISTENCE_THRESHOLD_INQUIRY;
+        case 0x8A:
+            return EXISTENCE_BOUNDARY_INQUIRY;
+        case 0x8D:
+            return MOTION_TO_STILL_INQUIRY;
+        case 0x8E:
+            return NO_PERSON_STATE_TIME_INQUIRY;
         default:
             return UNDEFINED;
         }
@@ -166,6 +221,7 @@ struct MRX_Frame
         }
     }
 
+    // 0x53 0x59 0x81 [...]
     int get_respiratory_monitor_functions_type()
     {
         switch (bytes[3])
@@ -187,6 +243,7 @@ struct MRX_Frame
         }
     }
 
+    // 0x53 0x59 0x85 [...]
     int get_heartrate_monitor_functions_type()
     {
         switch (bytes[3])
