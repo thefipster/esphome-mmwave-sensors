@@ -70,7 +70,7 @@ You can change the name of the `headers` directory in home assistant if it doesn
 
 ```
 substitutions:
-  header_frame: headers/rx_frame.h
+  header_frame: headers/mrx_frame.h
   header_sensor: headers/mr24hpc1.h
 ```
 
