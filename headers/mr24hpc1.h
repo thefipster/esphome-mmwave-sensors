@@ -111,13 +111,13 @@ public:
         case MOTION_TO_STILL_INQUIRY:
         case MOTION_TO_STILL_RESPONSE:
             ESP_LOGD(TAG, "motion to still time");
-            ESP_LOGD(TAG, msg.c_str());
+            ESP_LOGD(TAG, "%s", msg.c_str());
             break;
 
         case NO_PERSON_STATE_TIME_INQUIRY:
         case NO_PERSON_STATE_TIME_RESPONSE:
             ESP_LOGD(TAG, "no person time");
-            ESP_LOGD(TAG, msg.c_str());
+            ESP_LOGD(TAG, "%s", msg.c_str());
             break;
 
         case OPEN_OUTPUT_INQUIRY:
@@ -128,11 +128,11 @@ public:
         case OPEN_SENSOR_REPORT:
             ESP_LOGD(TAG, "open report");
 
-            ESP_LOGD(TAG, msg.c_str());
+            ESP_LOGD(TAG, "%s", msg.c_str());
             break;
 
         default:
-            ESP_LOGD(TAG, msg.c_str());
+            ESP_LOGD(TAG, "%s", msg.c_str());
         }
     }
 
